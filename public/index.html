@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Reminder Board – Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="screen active">
+  <div class="login-bg">
+    <div class="login-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+  <div class="login-container">
+    <div class="login-brand">
+      <div class="brand-icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="10" fill="var(--accent)"/>
+          <path d="M8 10h16M8 16h10M8 22h13" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="24" cy="22" r="4" fill="white"/>
+          <path d="M22.5 22l1 1 2-2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-name">SmartBoard<span class="brand-pro">Pro</span></h1>
+        <p class="brand-sub">Academic Management Portal</p>
+      </div>
+    </div>
+
+    <div class="login-card">
+      <h2 class="login-title" id="auth-title">Welcome back</h2>
+      <p class="login-desc" id="auth-desc">Sign in to your academic workspace</p>
+
+      <div class="role-toggle">
+        <button class="role-btn active" data-role="student" onclick="selectRole('student')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 14l9-5-9-5-9 5 12 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          Student
+        </button>
+        <button class="role-btn" data-role="admin" onclick="selectRole('admin')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          Faculty
+        </button>
+      </div>
+
+      <div class="form-group hidden" id="name-group">
+        <label>Full Name</label>
+        <input type="text" id="login-name" placeholder="Enter your full name" class="form-input"/>
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="login-username" placeholder="Enter your username" class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="••••••••" class="form-input"/>
+        <small class="hint-text" id="login-hint"></small>
+      </div>
+      <div id="login-error" class="error-msg hidden"></div>
+      
+      <button class="btn-primary full-width" id="auth-btn" onclick="handleAuth()">Sign In</button>
+      
+      <p class="demo-hint" id="auth-toggle-text">Don't have an account? <a href="#" onclick="toggleAuthMode(true)">Register</a></p>
+      <p class="demo-hint hidden" id="auth-toggle-back">Already have an account? <a href="#" onclick="toggleAuthMode(false)">Sign In</a></p>
+      <p class="demo-hint">Demo: student/student123 or admin/admin123</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app-screen" class="screen">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon sm">
+        <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+          <rect width="32" height="32" rx="10" fill="var(--accent)"/>
+          <path d="M8 10h16M8 16h10M8 22h13" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="24" cy="22" r="4" fill="white"/>
+          <path d="M22.5 22l1 1 2-2" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="sidebar-brand">SmartBoard<span class="brand-pro">Pro</span></span>
+      <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+    </div>
+
+    <div class="user-info">
+      <div class="avatar" id="sidebar-avatar">S</div>
+      <div>
+        <div class="user-name" id="sidebar-name">Student</div>
+        <div class="user-role" id="sidebar-role">Student</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav"></nav>
+
+    <div class="sidebar-footer">
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="theme-icon">☀️</span>
+        <span id="theme-label">Light Mode</span>
+      </button>
+      <button class="logout-btn" onclick="handleLogout()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="topbar">
+      <button class="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="page-title-wrap">
+        <h2 class="page-title" id="page-title">Dashboard</h2>
+        <span class="breadcrumb" id="breadcrumb">Home</span>
+      </div>
+      <div class="topbar-right">
+        <div class="notif-bell" onclick="toggleNotif()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span class="notif-dot" id="notif-dot"></span>
+        </div>
+        <div class="topbar-avatar" id="topbar-avatar">S</div>
+      </div>
+    </header>
+
+    <main class="content-area" id="content-area"></main>
+  </div>
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+</div>
+
+<!-- MODALS -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModal(event)">
+  <div class="modal" id="modal-content" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="modal-title">Modal</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast-container"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
