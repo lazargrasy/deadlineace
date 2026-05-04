@@ -30,8 +30,10 @@ const AssignmentSchema = new mongoose.Schema({
   subject: String,
   description: String,
   dueDate: Date,
-  facultyId: mongoose.Schema.Types.ObjectId,
-  fileUrl: String // Cloudinary Link
+  priority: String,
+  rubric: [{ criterion: String, maxMarks: Number }], // Added this
+  facultyId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  fileUrl: String
 });
 const Assignment = mongoose.model('Assignment', AssignmentSchema);
 
