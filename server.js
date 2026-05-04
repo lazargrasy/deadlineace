@@ -68,3 +68,19 @@ app.get('/api/assignments', async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const SubmissionSchema = new mongoose.Schema({
+  assignmentId: { type: mongoose.Schema.Types.ObjectId, ref: 'Assignment' },
+  studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  status: { type: String, default: 'Pending' },
+  feedback: String,
+  grades: Object,
+  submittedAt: { type: Date, default: Date.now }
+});
+const Submission = mongoose.model('Submission', SubmissionSchema);
+
+app.post('/api/submissions', async (req, res) => {
+  try {
+    const sub = await Submission.create(req.body);
+    res.json(sub);
+  } catch (err) { res.status(400).json(err); }
+});
