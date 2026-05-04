@@ -14,7 +14,7 @@ const AssignmentSchema = new mongoose.Schema({
   dueDate: String,
   priority: String,
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  questionFile: String, // URL to file
+  questionFile: String, // URL to Cloudinary file
   rubric: [{
     id: String,
     criterion: String,
@@ -31,13 +31,13 @@ const SubmissionSchema = new mongoose.Schema({
   submittedAt: String,
   method: { type: String, enum: ['online', 'in-person'] },
   status: { type: String, default: 'Pending' },
-  grades: { type: Map, of: Number },
+  grades: { type: Map, of: Number }, // Stores rubric scores e.g., {"r1": 10, "r2": 5}
   feedback: String
 });
 
 const AttendanceSchema = new mongoose.Schema({
   date: String,
-  records: { type: Map, of: [String] } // Map of userID to array of 'P'/'A'
+  records: { type: Map, of: [String] }
 });
 
 const QuerySchema = new mongoose.Schema({
